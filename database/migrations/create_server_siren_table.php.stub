@@ -8,12 +8,36 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('server_siren_table', function (Blueprint $table) {
+        Schema::create('server_siren', function (Blueprint $table) {
             $table->id();
 
-            // add fields
+            // Drive Space Metrics
+            $table->unsignedBigInteger('disk_total_space')->comment('Total disk space in bytes');
+            $table->unsignedBigInteger('disk_free_space')->comment('Free disk space in bytes');
+            $table->unsignedBigInteger('disk_used_space')->comment('Used disk space in bytes');
+            $table->decimal('disk_space_percent', 5, 2)->comment('Percentage of disk space used');
 
+            // Memory Metrics
+            $table->unsignedBigInteger('memory_total')->comment('Total memory in bytes');
+            $table->unsignedBigInteger('memory_free')->comment('Free memory in bytes');
+            $table->unsignedBigInteger('memory_used')->comment('Used memory in bytes');
+            $table->decimal('memory_percent', 5, 2)->comment('Percentage of memory used');
+
+            // CPU Metrics
+            $table->decimal('cpu_1_min_load', 5, 2)->comment('CPU load average for 1 minute');
+            $table->decimal('cpu_5_min_load', 5, 2)->comment('CPU load average for 5 minutes');
+            $table->decimal('cpu_15_min_load', 5, 2)->comment('CPU load average for 15 minutes');
+            $table->decimal('cpu_1_min_load_adj', 5, 2)->comment('Adjusted CPU load average for 1 minute per core');
+            $table->decimal('cpu_5_min_load_adj', 5, 2)->comment('Adjusted CPU load average for 5 minutes per core');
+            $table->decimal('cpu_15_min_load_adj', 5, 2)->comment('Adjusted CPU load average for 15 minutes per core');
+            $table->unsignedTinyInteger('cpu_cores')->comment('Number of CPU cores');
+
+            // Timestamps
             $table->timestamps();
+
+            // Indexes
+            $table->index(['drive_space_percent', 'memory_percent', 'cpu_1_min_load_adj', 'cpu_5_min_load_adj', 'cpu_15_min_load_adj']);
+            $table->index('created_at');  // Index for created_at
         });
     }
 };

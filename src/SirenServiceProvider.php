@@ -19,7 +19,8 @@ class SirenServiceProvider extends PackageServiceProvider
             ->name('server-siren')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_server-siren_table')
+            ->hasMigration('create_server_siren_table')
+            ->runsMigrations()
             ->hasCommand(SirenCommand::class);
     }
 }

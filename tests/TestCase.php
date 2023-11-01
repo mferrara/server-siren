@@ -3,6 +3,7 @@
 namespace Mferrara\Siren\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Mferrara\Siren\SirenServiceProvider;
 
@@ -28,9 +29,7 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_server-siren_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_server_siren_table.php.stub';
         $migration->up();
-        */
     }
 }
