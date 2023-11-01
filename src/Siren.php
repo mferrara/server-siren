@@ -8,8 +8,6 @@ class Siren
 {
     /**
      * Method to process all metrics
-     *
-     * @return void
      */
     public function process(): void
     {
@@ -19,7 +17,6 @@ class Siren
 
     /**
      * Method to collect all configured metrics
-     *
      */
     protected function collectMetrics(): array
     {
@@ -55,9 +52,6 @@ class Siren
 
     /**
      * Get the system's disk space.
-     *
-     * @param string $path
-     * @return array
      */
     public function getDiskSpace(string $path = '/'): array
     {
@@ -68,17 +62,15 @@ class Siren
         $free = disk_free_space($path);
 
         return [
-            'total'    => $total,
-            'free'     => $free,
-            'used'     => $total - $free,
-            'percent'  => ($total - $free) / $total * 100
+            'total' => $total,
+            'free' => $free,
+            'used' => $total - $free,
+            'percent' => ($total - $free) / $total * 100,
         ];
     }
 
     /**
      * Get the system's total and available memory.
-     *
-     * @return array
      */
     public function getMemory(): array
     {
@@ -108,10 +100,10 @@ class Siren
             $total = $free + $active + $inactive;  // Total memory in bytes
         } else {
             // Linux
-            $data = explode("\n", file_get_contents("/proc/meminfo"));
+            $data = explode("\n", file_get_contents('/proc/meminfo'));
             $meminfo = [];
             foreach ($data as $line) {
-                list($key, $val) = explode(":", $line);
+                [$key, $val] = explode(':', $line);
                 $meminfo[$key] = trim($val);
             }
             $total = intval($meminfo['MemTotal'] ?? 0) * 1024; // Convert from KB to Bytes
@@ -119,17 +111,15 @@ class Siren
         }
 
         return [
-            'total'    => $total,
-            'free'     => $free,
-            'used'     => $total - $free,
-            'percent'  => $total > 0 ? (($total - $free) / $total * 100) : 0
+            'total' => $total,
+            'free' => $free,
+            'used' => $total - $free,
+            'percent' => $total > 0 ? (($total - $free) / $total * 100) : 0,
         ];
     }
 
     /**
      * Get the system's CPU loads.
-     *
-     * @return array
      */
     public function getCPULoads(): array
     {
@@ -138,20 +128,18 @@ class Siren
         $core_count = $this->getCpuCoresCount();
 
         return [
-            '1_min'  => $loads[0],
+            '1_min' => $loads[0],
             '1_min_adj' => $loads[0] / $core_count,
-            '5_min'  => $loads[1],
+            '5_min' => $loads[1],
             '5_min_adj' => $loads[1] / $core_count,
             '15_min' => $loads[2],
             '15_min_adj' => $loads[2] / $core_count,
-            'cores'  => $core_count,
+            'cores' => $core_count,
         ];
     }
 
     /**
      * Get the number of CPU cores.
-     *
-     * @return int
      */
     public function getCpuCoresCount(): int
     {
@@ -160,7 +148,7 @@ class Siren
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // Windows
             $process = @popen('wmic cpu get NumberOfCores', 'rb');
-            if (false !== $process) {
+            if ($process !== false) {
                 fgets($process); // Skip the header
                 $cores = intval(fgets($process));
                 pclose($process);
@@ -172,5 +160,4 @@ class Siren
 
         return $cores;
     }
-
 }

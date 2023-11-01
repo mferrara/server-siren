@@ -3,9 +3,8 @@
 namespace Mferrara\Siren\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Artisan;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Mferrara\Siren\SirenServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

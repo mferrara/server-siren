@@ -2,9 +2,9 @@
 
 namespace Mferrara\Siren;
 
+use Mferrara\Siren\Commands\SirenCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Mferrara\Siren\Commands\SirenCommand;
 
 class SirenServiceProvider extends PackageServiceProvider
 {
